@@ -9,13 +9,14 @@
 #include <vector>
 
 #include "TextureManager.h"
-#include "GameObject.h"
+#include "SDLGameObject.h"
 #include "Player.h"
 #include "Enemy.h"
 
 class Game {
 public:
-    Game();
+    static Game* instance();
+
     ~Game();
 
     bool init(const char* title, int xpos, int ypos, int height, int width, bool fullscreen);
@@ -25,7 +26,13 @@ public:
     void clean();
     bool isRunning();
 
+    SDL_Renderer* getRenderer() const;
+
 private:
+    Game();
+
+    static Game* s_pInstance;
+
     SDL_Window* m_pWindow = nullptr;
     SDL_Renderer* m_pRenderer = nullptr;
 
@@ -33,12 +40,10 @@ private:
 
     bool m_bRunning = false;
 
-    GameObject *m_go;
-    GameObject *m_player;
-    GameObject *m_enemy;
 
-    std::vector<GameObject*> m_gameObjects;
+    std::vector<SDLGameObject*> m_gameObjects;
 };
 
+typedef Game TheGame;
 
 #endif //LEARN_SDL_GAME_H

@@ -3,18 +3,17 @@ project(learn_sdl)
 
 set(CMAKE_CXX_STANDARD 17)
 
-INCLUDE(FindPkgConfig)
+include(FindPkgConfig)
 
 find_package(SDL2 REQUIRED)
-PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
+pkg_search_module(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
 include_directories(SDL2Test ${SDL2_INCLUDE_DIRS})
+
 include_directories(
-        ${CMAKE_SOURCE_DIR}
-        ${CMAKE_SOURCE_DIR}/imgui-1.89.6
-        ${CMAKE_SOURCE_DIR}/imgui-1.89.6/backends
+        ${CMAKE_SOURCE_DIR}/src/inc
 )
 
-file(GLOB SOURCES "*.cpp")
+file(GLOB SOURCES "src/*.cpp")
 
 message(STATUS "${SDL2_LIBRARIES}")
 

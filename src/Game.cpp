@@ -2,6 +2,8 @@
 
 #include "Game.h"
 
+Game* Game::s_pInstance = nullptr;
+
 Game::Game() {
 
 }
@@ -43,17 +45,8 @@ bool Game::init(const char *title, int xpos, int ypos, int height, int width, bo
         return false;
     }
 
-    m_go = new GameObject();
-    m_player = new Player();
-    m_enemy = new Enemy();
-
-    m_go->load(100, 100, 100, 80, "animate");
-    m_player->load(300, 300, 100, 80, "animate");
-    m_enemy->load(0, 0, 100, 80, "animate");
-
-    m_gameObjects.push_back(m_go);
-    m_gameObjects.push_back(m_player);
-    m_gameObjects.push_back(m_enemy);
+    m_gameObjects.push_back(new Player(new LoaderParams(100, 100, 100, 80, "animate")));
+    m_gameObjects.push_back(new Enemy(new LoaderParams(300, 300, 100, 80, "animate")));
 
     std::cout << "Init success\n";
     m_bRunning = true;
@@ -65,7 +58,7 @@ void Game::render() {
     SDL_RenderClear(m_pRenderer);
 
     for (auto & m_gameObject : m_gameObjects) {
-        m_gameObject->draw(m_pRenderer);
+        m_gameObject->draw();
     }
 
     SDL_RenderPresent(m_pRenderer);
@@ -99,4 +92,15 @@ void Game::update() {
 
 bool Game::isRunning() {
     return m_bRunning;
+}
+
+Game *Game::instance() {
+    if (s_pInstance == nullptr) {
+        s_pInstance = new Game();
+    }
+    return s_pInstance;
+}
+
+SDL_Renderer *Game::getRenderer() const {
+    return m_pRenderer;
 }
