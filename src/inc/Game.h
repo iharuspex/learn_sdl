@@ -26,6 +26,8 @@ public:
     void clean();
     bool isRunning();
 
+    void quit();
+
     SDL_Renderer* getRenderer() const;
 
 private:
@@ -39,7 +41,6 @@ private:
     int m_currentFrame;
 
     bool m_bRunning = false;
-
 
     std::vector<SDLGameObject*> m_gameObjects;
 };

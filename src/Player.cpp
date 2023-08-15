@@ -1,10 +1,6 @@
-//
-// Created by haruspex on 30.06.23.
-//
-
 #include "Player.h"
 
-#include <utility>
+#include "InputHandler.h"
 
 Player::Player(const LoaderParams *pParams) : SDLGameObject(pParams) {
 
@@ -15,7 +11,29 @@ void Player::draw() {
 }
 
 void Player::update() {
-    m_position.setX(m_position.getX() - 1);
+    m_currentFrame = int (((SDL_GetTicks() / 100)) % 6);
+
+//    Vector2D* vec = TheInputHandler::instance()->getMousePosition();
+//
+//    m_velocity = (*vec - m_position) / 100;
+
+    if (TheInputHandler::instance()->isKeyDown(SDL_SCANCODE_RIGHT)) {
+        m_velocity.setX(2);
+    }
+
+    if (TheInputHandler::instance()->isKeyDown(SDL_SCANCODE_LEFT)) {
+        m_velocity.setX(-2);
+    }
+
+    if (TheInputHandler::instance()->isKeyDown(SDL_SCANCODE_UP)) {
+        m_velocity.setY(-2);
+    }
+
+    if (TheInputHandler::instance()->isKeyDown(SDL_SCANCODE_DOWN)) {
+        m_velocity.setY(2);
+    }
+
+    SDLGameObject::update();
 }
 
 void Player::clean() {

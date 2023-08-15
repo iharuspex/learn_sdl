@@ -2,6 +2,8 @@
 
 #include "Game.h"
 
+#include "InputHandler.h"
+
 Game* Game::s_pInstance = nullptr;
 
 Game::Game() {
@@ -41,6 +43,8 @@ bool Game::init(const char *title, int xpos, int ypos, int height, int width, bo
         return false;
     }
 
+    TheInputHandler::instance()->initialiseJoysticks();
+
     if (!TheTextureManager::instance()->load("../assets/PrototypeHero_noSword.png", "animate", m_pRenderer)) {
         return false;
     }
@@ -68,20 +72,12 @@ void Game::clean() {
     std::cout << "Cleaning game\n";
     SDL_DestroyWindow(m_pWindow);
     SDL_DestroyRenderer(m_pRenderer);
+    TheInputHandler::instance()->clean();
     SDL_Quit();
 }
 
 void Game::handleEvents() {
-    SDL_Event event;
-    if (SDL_PollEvent(&event)) {
-        switch (event.type) {
-            case SDL_QUIT:
-                m_bRunning = false;
-                break;
-            default:
-                break;
-        }
-    }
+    TheInputHandler::instance()->update();
 }
 
 void Game::update() {
@@ -103,4 +99,9 @@ Game *Game::instance() {
 
 SDL_Renderer *Game::getRenderer() const {
     return m_pRenderer;
+}
+
+void Game::quit() {
+    m_bRunning = false;
+    SDL_Quit();
 }
