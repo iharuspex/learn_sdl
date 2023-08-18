@@ -290,3 +290,7 @@ int InputHandler::yvalue(int joy, int stick) {
     }
     return 0;
 }
+
+void InputHandler::reset() {
+
+}

@@ -28,6 +28,8 @@ public:
     void update();
     void clean();
 
+    void reset();
+
 private:
     InputHandler();
     ~InputHandler();

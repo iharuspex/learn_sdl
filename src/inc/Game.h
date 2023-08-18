@@ -1,13 +1,12 @@
-//
-// Created by haruspex on 28.06.23.
-//
-
 #ifndef LEARN_SDL_GAME_H
 #define LEARN_SDL_GAME_H
 
 #include <SDL.h>
 #include <vector>
 
+#include "GameStateMachine.h"
+#include "MenuState.h"
+#include "PlayState.h"
 #include "TextureManager.h"
 #include "SDLGameObject.h"
 #include "Player.h"
@@ -29,6 +28,7 @@ public:
     void quit();
 
     SDL_Renderer* getRenderer() const;
+    GameStateMachine* getStateMachine();
 
 private:
     Game();
@@ -41,6 +41,8 @@ private:
     int m_currentFrame;
 
     bool m_bRunning = false;
+
+    GameStateMachine* m_pGameStateMachine;
 
     std::vector<SDLGameObject*> m_gameObjects;
 };

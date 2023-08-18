@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
 
     std::cout << "game init attempt...\n";
 
-    if (TheGame::instance()->init("Chapter 1: Setting up SDL", 100, 100, 640, 480, false)) {
+    if (TheGame::instance()->init("Chapter 1: Setting up SDL", 100, 100, 800, 600, false)) {
         std::cout << "game init success!\n";
         while (TheGame::instance()->isRunning()) {
             frameStart = SDL_GetTicks();

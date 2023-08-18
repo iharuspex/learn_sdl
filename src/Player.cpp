@@ -13,25 +13,9 @@ void Player::draw() {
 void Player::update() {
     m_currentFrame = int (((SDL_GetTicks() / 100)) % 6);
 
-//    Vector2D* vec = TheInputHandler::instance()->getMousePosition();
-//
-//    m_velocity = (*vec - m_position) / 100;
-
-    if (TheInputHandler::instance()->isKeyDown(SDL_SCANCODE_RIGHT)) {
-        m_velocity.setX(2);
-    }
-
-    if (TheInputHandler::instance()->isKeyDown(SDL_SCANCODE_LEFT)) {
-        m_velocity.setX(-2);
-    }
-
-    if (TheInputHandler::instance()->isKeyDown(SDL_SCANCODE_UP)) {
-        m_velocity.setY(-2);
-    }
-
-    if (TheInputHandler::instance()->isKeyDown(SDL_SCANCODE_DOWN)) {
-        m_velocity.setY(2);
-    }
+    Vector2D* target = TheInputHandler::instance()->getMousePosition();
+    m_velocity = *target - m_position;
+    m_velocity /= 50;
 
     SDLGameObject::update();
 }

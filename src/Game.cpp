@@ -43,6 +43,9 @@ bool Game::init(const char *title, int xpos, int ypos, int height, int width, bo
         return false;
     }
 
+    m_pGameStateMachine = new GameStateMachine();
+    m_pGameStateMachine->changeState(new MenuState());
+
     TheInputHandler::instance()->initialiseJoysticks();
 
     if (!TheTextureManager::instance()->load("../assets/PrototypeHero_noSword.png", "animate", m_pRenderer)) {
@@ -61,9 +64,11 @@ bool Game::init(const char *title, int xpos, int ypos, int height, int width, bo
 void Game::render() {
     SDL_RenderClear(m_pRenderer);
 
-    for (auto & m_gameObject : m_gameObjects) {
-        m_gameObject->draw();
-    }
+//    for (auto & m_gameObject : m_gameObjects) {
+//        m_gameObject->draw();
+//    }
+
+    m_pGameStateMachine->render();
 
     SDL_RenderPresent(m_pRenderer);
 }
@@ -78,12 +83,18 @@ void Game::clean() {
 
 void Game::handleEvents() {
     TheInputHandler::instance()->update();
+
+    if (TheInputHandler::instance()->isKeyDown(SDL_SCANCODE_RETURN)) {
+        m_pGameStateMachine->changeState(new PlayState());
+    }
 }
 
 void Game::update() {
-    for (auto & m_gameObject : m_gameObjects) {
-        m_gameObject->update();
-    }
+//    for (auto & m_gameObject : m_gameObjects) {
+//        m_gameObject->update();
+//    }
+
+    m_pGameStateMachine->update();
 }
 
 bool Game::isRunning() {
@@ -104,4 +115,8 @@ SDL_Renderer *Game::getRenderer() const {
 void Game::quit() {
     m_bRunning = false;
     SDL_Quit();
+}
+
+GameStateMachine *Game::getStateMachine() {
+    return m_pGameStateMachine;
 }
